@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "deploy": "./deploy.sh",
     "build": "vite build",
     "preview": "vite preview"
   },
