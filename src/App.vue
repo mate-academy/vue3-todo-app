@@ -9,7 +9,12 @@ export default {
   },
   mounted() {
     console.log(this.todos);
-  }
+  },
+  computed: {
+    activeTodos() {
+      return this.todos.filter(todo => !todo.completed);
+    },
+  },
 }
 </script>
 
@@ -19,7 +24,10 @@ export default {
 
     <div class="todoapp__content">
       <header class="todoapp__header">
-        <button class="todoapp__toggle-all active"></button>
+        <button
+          class="todoapp__toggle-all"
+          :class="{ active: activeTodos.length === 0 }"
+        ></button>
 
         <form>
           <input
@@ -56,7 +64,13 @@ export default {
 
           <template v-else>
             <span class="todo__title">{{ todo.title }}</span>
-            <button class="todo__remove" @click="todos.splice(index, 1)">x</button>
+
+            <button
+              class="todo__remove"
+              @click="todos.splice(index, 1)"
+            >
+              x
+            </button>
           </template>
 
           <div class="modal overlay" :class="{ 'is-active': false }">
@@ -67,34 +81,25 @@ export default {
       </section>
 
       <footer class="todoapp__footer">
-        <span class="todo-count">
-          3 items left
+        <span class="todoapp__active-count">
+          {{ activeTodos.length }} items left
         </span>
 
         <nav class="filter">
-          <a
-            href="#/"
-            class="filter__link selected"
-          >
+          <a href="#/" class="filter__link selected">
             All
           </a>
 
-          <a
-            href="#/active"
-            class="filter__link"
-          >
+          <a href="#/active" class="filter__link">
             Active
           </a>
 
-          <a
-            href="#/completed"
-            class="filter__link"
-          >
+          <a href="#/completed" class="filter__link">
             Completed
           </a>
         </nav>
 
-        <button class="todoapp__clear-completed">
+        <button class="todoapp__clear-completed" v-if="activeTodos.length > 0">
           Clear completed
         </button>
       </footer>
