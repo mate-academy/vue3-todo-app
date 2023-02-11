@@ -1,19 +1,30 @@
 <script>
-import todos from './data/todos';
-
 export default {
   data() {
+    let todos = [];
+
+    try {
+      todos = JSON.parse(
+        localStorage.getItem('todos') || '[]'
+      );
+    } catch (e) {}
+
     return {
       todos,
       title: '',
-    }
-  },
-  mounted() {
-    console.log(this.todos);
+    };
   },
   computed: {
     activeTodos() {
       return this.todos.filter(todo => !todo.completed);
+    },
+  },
+  watch: {
+    todos: {
+      deep: true,
+      handler() {
+        localStorage.setItem('todos', JSON.stringify(this.todos));
+      },
     },
   },
   methods: {
@@ -25,9 +36,9 @@ export default {
       });
 
       this.title = '';
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
@@ -112,7 +123,7 @@ export default {
           </a>
         </nav>
 
-        <button class="todoapp__clear-completed" v-if="activeTodos.length > 0">
+        <button v-if="activeTodos.length > 0" class="todoapp__clear-completed">
           Clear completed
         </button>
       </footer>
