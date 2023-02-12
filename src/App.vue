@@ -1,5 +1,10 @@
 <script>
+import StatusFilter from './components/StatusFilter.vue';
+
 export default {
+  components: {
+    StatusFilter,
+  },
   data() {
     let todos = [];
 
@@ -12,6 +17,7 @@ export default {
     return {
       todos,
       title: '',
+      status: 'all',
     };
   },
   computed: {
@@ -109,19 +115,7 @@ export default {
           {{ activeTodos.length }} items left
         </span>
 
-        <nav class="filter">
-          <a href="#/" class="filter__link selected">
-            All
-          </a>
-
-          <a href="#/active" class="filter__link">
-            Active
-          </a>
-
-          <a href="#/completed" class="filter__link">
-            Completed
-          </a>
-        </nav>
+        <StatusFilter v-model="status" />
 
         <button v-if="activeTodos.length > 0" class="todoapp__clear-completed">
           Clear completed
