@@ -1,7 +1,8 @@
 import { client } from '../utils/httpClient'
 
 export const getTodos = () => {
-  return client.get('/todos?userId=6342');
+  return client.get('/todos?userId=6342')
+    .then(() => Promise.reject())
 };
 
 export const createTodo = (title) => {
