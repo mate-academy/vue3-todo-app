@@ -42,7 +42,7 @@ export default {
     todosApi.getTodos()
       .then(({ data }) => this.todos = data)
       .catch(() => {
-        this.errorMessage = 'Unable to load todos';
+        this.$refs.errorMessage.show('Unable to load todos');
       });
   },
   methods: {
@@ -124,9 +124,13 @@ export default {
       </footer>
     </div>
 
-    <Message class="is-warning" :active="errorMessage !== ''">
-      <template #default="{ x }">
-        <p>{{ errorMessage }} {{ x }}</p>
+    <Message
+      class="is-warning"
+      ref="errorMessage"
+    >
+      <template #default="{ text }">
+        <p>{{ text }}</p>
+        <button @click="$refs.errorMessage.hide()">x</button>
       </template>
 
       <template #header>
